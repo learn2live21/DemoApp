@@ -1,15 +1,11 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import { GoogleSignin, statusCodes, GoogleSigninButton } from '@react-native-google-signin/google-signin';
-import { getCurrentUserInfo, getUserData } from '../api/service';
+import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
+import { GetCurrentUserInfo, GetUserData } from '../api/service';
 // import auth from '@react-native-firebase/auth';
 // import database from '@react-native-firebase/database';
-GoogleSignin.configure({
-    webClientId:
-        '534884668940-5ss1rjfiatqg5ekgu9u696q6rb9og0ni.apps.googleusercontent.com',
-    offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
-});
+
 
 const Login = (props) => {
     const signIn = async () => {
@@ -21,12 +17,11 @@ const Login = (props) => {
             // );
             // await auth().signInWithCredential(googleCredential);
             // let data = await UserAdd(userInfo.user, selectedUser);
-            let data = await getUserData();
-            if (data === undefined)
-                data = getCurrentUserInfo();
-            // console.log(userInfo)
-            console.log('data', data)
-            props.navigation.navigate('Home')
+            let data = await GetUserData();
+            if (data === undefined || data === null)
+                data = await GetCurrentUserInfo();
+            if (data)
+                props.navigation.navigate('Home')
         } catch (error) {
             console.log(error)
         }

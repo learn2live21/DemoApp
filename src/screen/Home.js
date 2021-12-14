@@ -1,12 +1,17 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { getUserData, LogOutUser } from '../api/service';
+import { GetUserData, LogOutUser } from '../api/service';
 
 const Home = (props) => {
-    const userinfo = getUserData()
+    const userinfo = GetUserData()
 
     const logout = async () => {
-        await LogOutUser()
+        try {
+            await LogOutUser()
+            props.navigation.navigate('Login')
+        } catch (error) {
+            console.log(error)
+        }
     }
     console.log(userinfo)
     return (
